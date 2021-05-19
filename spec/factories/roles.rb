@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :role do
-    name { "Admin" }
+    name { ('a'..'z').to_a.shuffle.join }
   end
 end
