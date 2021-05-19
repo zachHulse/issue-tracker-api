@@ -31,4 +31,13 @@ RSpec.describe User, type: :model do
       expect(user.password_digest).to_not eq(user.password)
     end
   end
+  context "methods" do
+    it "should have a role method" do
+      user = create(:user)
+      user.roles << create(:role, name: 'a')
+      create(:role, name: 'b')
+      expect(user.role? :a).to be_truthy
+      expect(user.role? :b).to_not be_truthy
+    end
+  end
 end
