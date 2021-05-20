@@ -14,6 +14,7 @@ class Api::V1::IssuesController < ApplicationController
   def create
     authorize Issue
     @issue = Issue.new(issue_params)
+    @issue.code = "#{@issue.project.abbrevation}-#{@issue.project.issues.size}"
     if @issue.save
       render json: @issue
     else
@@ -42,7 +43,7 @@ class Api::V1::IssuesController < ApplicationController
   private
 
   def issue_params
-    params.require(:name, :abbreviation).permit(:name, :abbreviation, :description)
+    params.require(:name, :project).permit(:name, :project, :sprint, :description, :story_points)
   end
 
   def find_issue
