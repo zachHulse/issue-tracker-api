@@ -12,7 +12,7 @@ module ModelHelper
     instance_b = create(model)
     instance_b[field] = instance_a[field]
     expect(instance_b).to_not be_valid
-    expect(instance_b.errors.messages[:name]).to include('has already been taken')
+    expect(instance_b.errors.messages[field]).to include('has already been taken')
   end
 end
 
