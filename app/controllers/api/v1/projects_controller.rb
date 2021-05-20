@@ -26,7 +26,7 @@ class Api::V1::ProjectsController < ApplicationController
       @project.update(project_params)
       render json: @project
     else
-      render json: { error: 'Unable to update fact.' }, status: 400
+      render json: { error: 'Unable to update issue.' }, status: 400
     end
   end
 
