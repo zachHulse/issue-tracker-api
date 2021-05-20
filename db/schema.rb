@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_19_022314) do
+ActiveRecord::Schema.define(version: 2021_05_19_201051) do
 
   create_table "assignments", force: :cascade do |t|
     t.integer "user_id", null: false
@@ -21,10 +21,27 @@ ActiveRecord::Schema.define(version: 2021_05_19_022314) do
     t.index ["user_id"], name: "index_assignments_on_user_id"
   end
 
+  create_table "projects", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.string "abbreviation"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "roles", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "sprints", force: :cascade do |t|
+    t.integer "project_id", null: false
+    t.date "start"
+    t.date "finish"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["project_id"], name: "index_sprints_on_project_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -36,4 +53,5 @@ ActiveRecord::Schema.define(version: 2021_05_19_022314) do
 
   add_foreign_key "assignments", "roles"
   add_foreign_key "assignments", "users"
+  add_foreign_key "sprints", "projects"
 end
