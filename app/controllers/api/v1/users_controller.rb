@@ -1,51 +1,36 @@
 class Api::V1::UsersController < ApplicationController
-  before_action :find_user, only: [:show, :update, :destroy]
+  before_action :authorized, only: [:auto_login]
 
-  def index
-    authorize User
-    @users = User.all
-    render json: @users
-  end
-
-  def show
-    render json: @user
-  end
-
+  # REGISTER
   def create
-    authorize User
-    @user = User.new(user_params)
-    if @user.save
-      render json: @user
+    @user = User.create(user_params)
+    if @user.valid?
+      token = encode_token({ user_id: @user.id })
+      render json: { user: @user, token: token }
     else
-      render error: { error: 'Unable to create user.' }, status: 400
+      render json: { error: "Invalid username or password" }
     end
   end
 
-  def update
-    if @user
-      @user.update(user_params)
-      render json: @user
+  # LOGGING IN
+  def login
+    @user = User.find_by(email: params[:email])
+
+    if @user && @user.authenticate(params[:password])
+      token = encode_token({ user_id: @user.id })
+      render json: { user: @user, token: token }
     else
-      render json: { error: 'Unable to update user.' }, status: 400
+      render json: { error: "Invalid username or password" }
     end
   end
 
-  def destroy
-    if @user
-      @user.destroy
-      render json: { message: 'User successfully deleted.' }, status: 200
-    else
-      render json: { error: 'Unable to delete user.' }, status: 400
-    end
+  def auto_login
+    render json: @user
   end
 
   private
 
   def user_params
     params.require(:email, :password).permit(:email, :password)
-  end
-
-  def find_user
-    @user = authorize User.find(params[:id])
   end
 end
