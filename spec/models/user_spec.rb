@@ -3,17 +3,10 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   context "email" do
     it "is required" do
-      user = create(:user)
-      user.email = NIL
-      expect(user).to_not be_valid
-      expect(user.errors.messages[:email]).to include("can't be blank")
+      test_is_required(:user, :email)
     end
     it "should be unique" do
-      john = create(:user, email: 'john@place.com')
-      jane = create(:user, email: 'jane@place.com')
-      john.email = jane.email
-      expect(john).to_not be_valid
-      expect(john.errors.messages[:email]).to include('has already been taken')
+      test_is_unique(:user, :email)
     end
     it "should require email formatting" do
       bad_emails = %w[bad bademail@ bad.com]
