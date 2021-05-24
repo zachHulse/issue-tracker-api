@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::API
+  include Pundit
   before_action :authorized
 
   def encode_token(payload)
@@ -32,6 +33,10 @@ class ApplicationController < ActionController::API
       user_id = decoded_token[0]['user_id']
       @user = User.find_by(id: user_id)
     end
+  end
+
+  def pundit_user
+    logged_in_user
   end
 
   def logged_in?
