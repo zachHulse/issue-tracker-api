@@ -43,7 +43,7 @@ class Api::V1::IssuesController < ApplicationController
   private
 
   def issue_params
-    params.require(:name, :project).permit(:name, :project, :sprint, :description, :story_points)
+    params.require(:issue).permit(:name, :project, :sprint, :description, :story_points)
   end
 
   def find_issue
