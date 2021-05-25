@@ -42,7 +42,7 @@ class Api::V1::ProjectsController < ApplicationController
   private
 
   def project_params
-    params.require(:name, :abbreviation).permit(:name, :abbreviation, :description)
+    params.require(:project).permit(:name, :abbreviation, :description)
   end
 
   def find_project
