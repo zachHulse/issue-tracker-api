@@ -42,7 +42,7 @@ class Api::V1::SprintsController < ApplicationController
   private
 
   def sprint_params
-    params.require(:sprint).permit(:start, :finish, :project)
+    params.require(:sprint).permit(:start, :finish, :project_id)
   end
 
   def find_sprint
