@@ -1,9 +1,10 @@
 class Api::V1::SprintsController < ApplicationController
   before_action :find_sprint, only: [:show, :update, :destroy]
+  before_action :find_project, only: [:index, :create, :update]
 
   def index
     authorize Sprint
-    @sprints = Sprint.all
+    @sprints = @project.sprints.all
     render json: @sprints
   end
 
@@ -14,6 +15,7 @@ class Api::V1::SprintsController < ApplicationController
   def create
     authorize Sprint
     @sprint = Sprint.new(sprint_params)
+    @sprint.project_id = @project.id
     if @sprint.save
       render json: @sprint
     else
@@ -47,5 +49,9 @@ class Api::V1::SprintsController < ApplicationController
 
   def find_sprint
     @sprint = authorize Sprint.find(params[:id])
+  end
+
+  def find_project
+    @project = authorize Project.find(params[:project_id])
   end
 end

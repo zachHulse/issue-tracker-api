@@ -5,9 +5,8 @@ Rails.application.routes.draw do
     post "/login", to: "users#login"
     get "/auto_login", to: "users#auto_login"
     namespace :v1 do
-      resources :sprints
       resources :projects do
-        resources :issues
+        resources :issues, :sprints
       end
     end
   end

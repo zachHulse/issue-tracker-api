@@ -1,9 +1,10 @@
 class Api::V1::IssuesController < ApplicationController
   before_action :find_issue, only: [:show, :update, :destroy]
+  before_action :find_project, only: [:index, :create, :update]
 
   def index
     authorize Issue
-    @issues = Issue.all
+    @issues = @project.issues.all
     render json: @issues
   end
 
@@ -14,7 +15,8 @@ class Api::V1::IssuesController < ApplicationController
   def create
     authorize Issue
     @issue = Issue.new(issue_params)
-    @issue.code = "#{@issue.project.abbrevation}-#{@issue.project.issues.size}"
+    @issue.project_id = @project.id
+    @issue.code = "#{@issue.project.abbreviation}-#{@issue.project.issues.size}"
     if @issue.save
       render json: @issue
     else
@@ -43,10 +45,14 @@ class Api::V1::IssuesController < ApplicationController
   private
 
   def issue_params
-    params.require(:issue).permit(:name, :project, :sprint, :description, :story_points)
+    params.require(:issue).permit(:name, :project_id, :sprint_id, :description, :story_points)
   end
 
   def find_issue
     @issue = authorize Issue.find(params[:id])
+  end
+
+  def find_project
+    @project = authorize Project.find(params[:project_id])
   end
 end
