@@ -1,24 +1,29 @@
-# README
+# Rest Api for Issue Tracker
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## System Dependencies
+- ruby 2.7.3
 
-Things you may want to cover:
+## Project Dependencies
+````bash
+$ bundle install
+````
 
-* Ruby version
+## Setup Database
+ - project is using SQlite DB
+```bash
+$ rails db:migrate
+$ rake db:seed
+```
 
-* System dependencies
+## Run Project
+```bash
+$ rails s -p 8000
+```
 
-* Configuration
+## Run Tests
+```bash
+$ rspec
+```
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+### Outstanding Items
+- Controller testing
