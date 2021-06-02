@@ -18,7 +18,8 @@ class Api::UsersController < ApplicationController
 
     if @user && @user.authenticate(params[:password])
       token = encode_token({ user_id: @user.id })
-      render json: { user: @user, token: token, isAdmin: @user.role? :admin }
+      is_admin = @user.role? :admin
+      render json: { user: @user, token: token, isAdmin: is_admin }
     else
       render json: { error: "Invalid username or password" }, status: 401
     end
