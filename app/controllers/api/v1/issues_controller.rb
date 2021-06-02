@@ -16,7 +16,7 @@ class Api::V1::IssuesController < ApplicationController
     authorize Issue
     @issue = Issue.new(issue_params)
     @issue.project_id = @project.id
-    @issue.code = "#{@issue.project.abbreviation}-#{@issue.project.issues.size}"
+    @issue.code = "#{@project.abbreviation}-#{@project.issues.size}"
     if @issue.save
       render json: @issue
     else
