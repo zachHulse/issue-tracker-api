@@ -52,6 +52,6 @@ class Api::V1::SprintsController < ApplicationController
   end
 
   def find_project
-    @project = authorize Project.find(params[:project_id])
+    @project = Project.find(params[:project_id])
   end
 end
